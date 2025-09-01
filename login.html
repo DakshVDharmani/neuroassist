@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 50%, #f0f9f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(144, 238, 144, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #2d5a2d;
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .form-container {
+            position: relative;
+        }
+
+        .form {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2d5a2d;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0f0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafffe;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #90ee90;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(144, 238, 144, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #90ee90, #7dd87d);
+            color: #2d5a2d;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #7dd87d, #6bc96b);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(144, 238, 144, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #5a805a;
+            font-size: 0.95rem;
+        }
+
+        .toggle-link a {
+            color: #2d5a2d;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .toggle-link a:hover {
+            border-bottom-color: #90ee90;
+        }
+
+        .message {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .message.success {
+            background: #d4f4d4;
+            color: #2d5a2d;
+            border: 1px solid #90ee90;
+        }
+
+        .message.error {
+            background: #fde8e8;
+            color: #a94442;
+            border: 1px solid #f5c6cb;
+        }
+
+        .welcome-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .welcome-screen.active {
+            display: block;
+        }
+
+        .welcome-screen h2 {
+            color: #2d5a2d;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .welcome-screen p {
+            color: #5a805a;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .user-info {
+            background: #f0f9f0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #e0f0e0;
+        }
+
+        .user-info div {
+            margin-bottom: 10px;
+            color: #2d5a2d;
+        }
+
+        .user-info strong {
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            color: #666;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #e0e0e0, #d0d0d0);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>SecureAuth</h1>
+        </div>
+
+        <div id="messageContainer"></div>
+
+        <!-- Registration Form -->
+        <div id="registerForm" class="form active">
+            <form id="registerFormElement">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" name="password" required minlength="6">
+                </div>
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+            <div class="toggle-link">
+                Already have an account? <a href="#" id="showLogin">Sign In</a>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="form">
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+            <div class="toggle-link">
+                Don't have an account? <a href="#" id="showRegister">Create Account</a>
+            </div>
+        </div>
+
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <h2>Welcome Back!</h2>
+            <div id="userInfo" class="user-info"></div>
+            <p>You have successfully logged in to your account.</p>
+            <button id="logoutBtn" class="btn logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        class AuthSystem {
+            constructor() {
+                this.users = JSON.parse(localStorage.getItem('users') || '[]');
+                this.currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                if (this.currentUser) {
+                    this.showWelcomeScreen();
+                }
+            }
+
+            bindEvents() {
+                // Form submissions
+                document.getElementById('registerFormElement').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleRegister();
+                });
+
+                document.getElementById('loginFormElement').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+
+                // Toggle between forms
+                document.getElementById('showLogin').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showLoginForm();
+                });
+
+                document.getElementById('showRegister').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showRegisterForm();
+                });
+
+                // Logout
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    this.handleLogout();
+                });
+            }
+
+            showMessage(message, type = 'success') {
+                const container = document.getElementById('messageContainer');
+                container.innerHTML = `<div class="message ${type}">${message}</div>`;
+                
+                setTimeout(() => {
+                    container.innerHTML = '';
+                }, 4000);
+            }
+
+            showRegisterForm() {
+                document.getElementById('registerForm').classList.add('active');
+                document.getElementById('loginForm').classList.remove('active');
+                document.getElementById('welcomeScreen').classList.remove('active');
+                this.clearForms();
+            }
+
+            showLoginForm() {
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('registerForm').classList.remove('active');
+                document.getElementById('welcomeScreen').classList.remove('active');
+                this.clearForms();
+            }
+
+            showWelcomeScreen() {
+                document.getElementById('welcomeScreen').classList.add('active');
+                document.getElementById('registerForm').classList.remove('active');
+                document.getElementById('loginForm').classList.remove('active');
+                
+                const userInfo = document.getElementById('userInfo');
+                userInfo.innerHTML = `
+                    <div><strong>Name:</strong> ${this.currentUser.name}</div>
+                    <div><strong>Email:</strong> ${this.currentUser.email}</div>
+                    <div><strong>Member Since:</strong> ${new Date(this.currentUser.registeredAt).toLocaleDateString()}</div>
+                `;
+            }
+
+            clearForms() {
+                document.getElementById('registerFormElement').reset();
+                document.getElementById('loginFormElement').reset();
+                document.getElementById('messageContainer').innerHTML = '';
+            }
+
+            handleRegister() {
+                const formData = new FormData(document.getElementById('registerFormElement'));
+                const userData = {
+                    name: formData.get('name').trim(),
+                    email: formData.get('email').trim().toLowerCase(),
+                    password: formData.get('password'),
+                    registeredAt: new Date().toISOString()
+                };
+
+                // Validation
+                if (!userData.name || !userData.email || !userData.password) {
+                    this.showMessage('Please fill in all fields.', 'error');
+                    return;
+                }
+
+                if (userData.password.length < 6) {
+                    this.showMessage('Password must be at least 6 characters long.', 'error');
+                    return;
+                }
+
+                // Check if user already exists
+                if (this.users.find(user => user.email === userData.email)) {
+                    this.showMessage('An account with this email already exists.', 'error');
+                    return;
+                }
+
+                // Hash password (simple encoding for demo - use proper hashing in production)
+                userData.password = btoa(userData.password);
+
+                // Save user
+                this.users.push(userData);
+                localStorage.setItem('users', JSON.stringify(this.users));
+
+                this.showMessage('Account created successfully! You can now sign in.', 'success');
+                
+                // Auto-switch to login form after successful registration
+                setTimeout(() => {
+                    this.showLoginForm();
+                    document.getElementById('loginEmail').value = userData.email;
+                }, 2000);
+            }
+
+            handleLogin() {
+                const formData = new FormData(document.getElementById('loginFormElement'));
+                const loginData = {
+                    email: formData.get('email').trim().toLowerCase(),
+                    password: formData.get('password')
+                };
+
+                if (!loginData.email || !loginData.password) {
+                    this.showMessage('Please fill in all fields.', 'error');
+                    return;
+                }
+
+                // Find user
+                const user = this.users.find(u => u.email === loginData.email);
+                if (!user) {
+                    this.showMessage('No account found with this email address.', 'error');
+                    return;
+                }
+
+                // Verify password
+                if (atob(user.password) !== loginData.password) {
+                    this.showMessage('Incorrect password.', 'error');
+                    return;
+                }
+
+                // Login successful
+                this.currentUser = {
+                    name: user.name,
+                    email: user.email,
+                    registeredAt: user.registeredAt
+                };
+                localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+                this.showMessage('Login successful! Welcome back.', 'success');
+                
+                setTimeout(() => {
+                    this.showWelcomeScreen();
+                }, 1500);
+            }
+
+            handleLogout() {
+                this.currentUser = null;
+                localStorage.removeItem('currentUser');
+                this.showMessage('You have been logged out successfully.', 'success');
+                
+                setTimeout(() => {
+                    this.showLoginForm();
+                }, 1500);
+            }
+        }
+
+        // Initialize the authentication system
+        document.addEventListener('DOMContentLoaded', () => {
+            new AuthSystem();
+        });
+    </script>
+</body>
+</html>
