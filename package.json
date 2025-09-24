@@ -1,0 +1,53 @@
+{
+  "name": "neuroassist",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI-powered mental health platform for comprehensive neurological assessment and therapy",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.3.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "@tensorflow/tfjs": "^4.22.0",
+    "axios": "^1.9.0",
+    "face-api.js": "^0.22.2",
+    "framer-motion": "^11.11.17",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.511.0",
+    "meyda": "^5.6.3",
+    "openai": "^5.20.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.4.1",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^6.29.0",
+    "recharts": "^2.13.3",
+    "socket.io-client": "^4.8.1",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.27.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "vite": "^6.3.5"
+  },
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
