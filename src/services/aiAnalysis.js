@@ -1,5 +1,7 @@
 // src/services/aiAnalysis.js
 
+const OLLAMA_URL = import.meta.env.VITE_OLLAMA_URL || "http://localhost:11434";
+
 export async function generateAnalysis(scores) {
   const prompt = `
 You are a clinical AI assistant.
@@ -40,7 +42,7 @@ Rules:
 `;
 
   try {
-    const res = await fetch("http://localhost:11434/api/generate", {
+    const res = await fetch(`${OLLAMA_URL}/api/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -69,6 +71,6 @@ Rules:
     }
   } catch (err) {
     console.error("AI analysis failed:", err);
-    return { error: "AI analysis could not be generated." };
+    return { error: `AI analysis could not be generated. Is Ollama running at ${OLLAMA_URL}?` };
   }
 }
